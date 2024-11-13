@@ -7,7 +7,7 @@ window.onload = () => {
   }
 }
 async function startStream() {
-  const stream = await navigator.mediaDevices.getUserMedia({video:true})
+  const stream = await navigator.mediaDevices.getUserMedia({video:true,audio:true})
   document.getElementById('video').srcObject = stream
    const peer = createPeer()
    stream.getTracks().forEach(track=>peer.addTrack(track,stream))
