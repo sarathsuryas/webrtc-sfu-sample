@@ -1,3 +1,5 @@
+const socket = io();
+
 window.onload = () => {
   document.getElementById('my-button').onclick = () => {
     start()
@@ -24,11 +26,18 @@ async function handleNegotiationNeededEvent(peer) {
   const payload = {
     sdp: peer.localDescription
   };
-  const { data } = await axios.post('/consumer', payload)
-  const desc = new RTCSessionDescription(data.sdp);
-  peer.setRemoteDescription(desc).catch(e => console.log(e));
-
+  const room = prompt("enter stream key to join")
+  // const { data } = await axios.post('/consumer', payload)
+  socket.emit('watch live',room,payload)
+  socket.on('result',(data)=>{
+    console.log(data)
+    const desc = new RTCSessionDescription(data.sdp);
+    peer.setRemoteDescription(desc).catch(e => console.log(e));
+  })
 }
+socket.on('invalid',(message)=>{
+  alert(message)
+})
 
 
 function handleTrackEvent(event) {
