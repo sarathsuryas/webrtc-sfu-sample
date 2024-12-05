@@ -1,6 +1,8 @@
 
 
 const socket = io();
+var pcConfig = turnConfig;
+
 window.onload = () => {
   document.getElementById('my-button').onclick = () => {
       startStream()
@@ -15,7 +17,7 @@ async function startStream() {
 }
 
 function createPeer() {
-  const peer = new RTCPeerConnection(turnConfig.iceServers)
+  const peer = new RTCPeerConnection(pcConfig)
   peer.onnegotiationneeded = () => handleNegotiationNeededEvent(peer)
   return peer;
 }

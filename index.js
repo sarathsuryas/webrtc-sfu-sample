@@ -34,15 +34,12 @@ app.get('/get-stream',(req,res)=>{
 //     }
 
 //     res.json(payload);
-// })
-
-
-
- 
+// })  
 const server = app.listen(8000,()=>{
   console.log('http://localhost:8000/start-stream')
   console.log('http://localhost:8000/get-stream')
 })
+
 const io = new Server(server);
 const streamArray = []
 var count = -1
@@ -62,7 +59,7 @@ try {
    socket.on("start stream",async(room,body)=>{
      socket.join(room)
    streamKey = room
-     const peer = new webrtc.RTCPeerConnection(config.turnConfig)
+     const peer = new webrtc.RTCPeerConnection(turnConfig)
      peer.ontrack = (e) =>  handleTrackEvent(e)
      const desc = new webrtc.RTCSessionDescription(body.sdp)
      await peer.setRemoteDescription(desc)
@@ -94,9 +91,10 @@ try {
            testCount = 0 
           break
         } 
-    }
+    } 
+
     socket.join(room)
-    const peer = new webrtc.RTCPeerConnection(config.turnConfig);
+    const peer = new webrtc.RTCPeerConnection(config);
     const desc = new webrtc.RTCSessionDescription(body.sdp);
     await peer.setRemoteDescription(desc);
     console.log(stream,'stream data')

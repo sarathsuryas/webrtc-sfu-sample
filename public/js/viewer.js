@@ -1,4 +1,5 @@
 const socket = io();
+var pcConfig = turnConfig;
 
 window.onload = () => {
   document.getElementById('my-button').onclick = () => {
@@ -11,10 +12,10 @@ function start() {
   peer.addTransceiver("video", { direction: "recvonly" })
   peer.addTransceiver("audio", { direction: "recvonly" })
 
-}
+} 
 
 function createPeer() {
-  const peer = new RTCPeerConnection(turnConfig.iceServers)
+  const peer = new RTCPeerConnection(pcConfig)
   peer.ontrack = handleTrackEvent
   peer.onnegotiationneeded = () => handleNegotiationNeededEvent(peer);
   return peer
